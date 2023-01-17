@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { productListApi } from './productService';
+import { productListApi } from './productListService';
 
 const initialState = {
   products: [],
 };
 
-export const productSlice = createSlice({
+export const productListSlice = createSlice({
   name: 'productList',
   initialState,
   reducers: {},
@@ -27,4 +27,4 @@ export const productSlice = createSlice({
   },
 });
 
-export default productSlice.reducer;
+export default productListSlice.reducer;

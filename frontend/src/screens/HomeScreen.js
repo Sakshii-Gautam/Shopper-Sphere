@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Product from '../components/Product';
 import { Row, Col } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { productListApi } from '../features/products/productService';
+import { productListApi } from '../features/products/productListService';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
