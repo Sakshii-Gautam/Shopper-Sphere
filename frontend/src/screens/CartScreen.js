@@ -26,7 +26,6 @@ const CartScreen = () => {
   useEffect(() => {
     const cartReqBody = { id, qty };
     if (id) {
-      // dispatch(addToCartApi(cartReqBody));
       dispatch(addToCartApi({ id, qty }));
     }
   }, [id, qty, dispatch]);
