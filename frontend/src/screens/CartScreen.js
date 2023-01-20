@@ -34,7 +34,7 @@ const CartScreen = () => {
     dispatch(removeCartItemApi(id));
   };
   const checkoutHandler = (id) => {
-    navigate('/login?redirect=shipping');
+    navigate('/shipping');
   };
 
   return (

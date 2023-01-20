@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartSlice from '../features/Cart/cartSlice';
+import orderSlice from '../features/order/orderSlice';
 import productDetailsSlice from '../features/products/productDetailsSlice';
 import productListSlice from '../features/products/productListSlice';
 import userSlice from '../features/users/userSlice';
@@ -12,8 +13,15 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
+  ? JSON.parse(localStorage.getItem('shippingAddress'))
+  : {};
+
 const initialState = {
-  cart: cartItemsFromStorage,
+  cart: {
+    cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
+  },
   users: { userInfo: userInfoFromStorage },
 };
 
@@ -24,6 +32,7 @@ const store = configureStore({
     productDetails: productDetailsSlice,
     cart: cartSlice,
     users: userSlice,
+    orders: orderSlice,
   },
 });
 

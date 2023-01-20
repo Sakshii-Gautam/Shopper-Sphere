@@ -1,6 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { addToCart, removeCartItem } from './cartSlice';
+import {
+  addToCart,
+  removeCartItem,
+  saveShippingAddress,
+  savePaymentMethod,
+} from './cartSlice';
 
 export const addToCartApi = createAsyncThunk(
   'cart/addToCart',
@@ -31,5 +36,21 @@ export const removeCartItemApi = createAsyncThunk(
       'cartItems',
       JSON.stringify(getState().cart.cartItems)
     );
+  }
+);
+
+export const saveShippingAddressApi = createAsyncThunk(
+  'cart/saveShippingAddress',
+  async (data, { getState, dispatch }) => {
+    dispatch(saveShippingAddress(data));
+    localStorage.setItem('shippingAddress', JSON.stringify(data));
+  }
+);
+
+export const savePaymentMethodApi = createAsyncThunk(
+  'cart/savePaymentMethod',
+  async (data, { getState, dispatch }) => {
+    dispatch(savePaymentMethod(data));
+    localStorage.setItem('paymentMethod', JSON.stringify(data));
   }
 );
