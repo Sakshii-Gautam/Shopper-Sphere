@@ -22,7 +22,7 @@ const ProfileScreen = () => {
   const users = useSelector((state) => state.users);
   const { isLoading, error, userInfo, profileUpdatedSuccess } = users;
   const orders = useSelector((state) => state.orders);
-  const { myOrdersList, user } = orders;
+  const { myOrdersList } = orders;
   const navigate = useNavigate();
 
   useEffect(() => {

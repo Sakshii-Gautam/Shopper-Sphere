@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { myOrderListReset } from '../order/orderSlice';
-import { userDetailsReset } from './userSlice';
+import { userDetailsReset, usersListReset } from './userSlice';
 
 export const login = createAsyncThunk(
   'users/login',
@@ -29,6 +29,7 @@ export const logout = createAsyncThunk(
     localStorage.removeItem('userInfo');
     dispatch(userDetailsReset());
     dispatch(myOrderListReset());
+    dispatch(usersListReset());
   }
 );
 
@@ -83,6 +84,38 @@ export const updateUserProfile = createAsyncThunk(
       },
     };
     const { data } = await axios.put(`/api/users/profile`, user, config);
+    return data;
+  }
+);
+
+export const getAllUsersApi = createAsyncThunk(
+  'users/getAllUsers',
+  async (args, { getState }) => {
+    const {
+      users: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/users`, config);
+    return data;
+  }
+);
+
+export const deleteUserApi = createAsyncThunk(
+  'users/deleteUser',
+  async (id, { getState }) => {
+    const {
+      users: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.delete(`/api/users/${id}`, config);
     return data;
   }
 );

@@ -5,14 +5,22 @@ import {
   logout,
   registerUser,
   updateUserProfile,
+  getAllUsersApi,
+  deleteUserApi,
 } from './userServices';
 
 const userSlice = createSlice({
   name: 'users',
-  initialState: {},
+  initialState: {
+    usersList: [],
+    userDetails: {},
+  },
   reducers: {
     userDetailsReset: (state) => {
       state.userInfo = {};
+    },
+    usersListReset: (state) => {
+      state.usersList = [];
     },
   },
   extraReducers: (builder) => {
@@ -52,7 +60,7 @@ const userSlice = createSlice({
       })
       .addCase(getUserDetails.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.userInfo = action?.payload;
+        state.userDetails = action?.payload;
       })
       .addCase(getUserDetails.rejected, (state, action) => {
         state.isLoading = false;
@@ -72,8 +80,34 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       });
+
+    builder
+      .addCase(getAllUsersApi.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUsersApi.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.usersList = action?.payload;
+      })
+      .addCase(getAllUsersApi.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
+
+    builder
+      .addCase(deleteUserApi.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteUserApi.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userDeleteSuccess = true;
+      })
+      .addCase(deleteUserApi.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
   },
 });
 
-export const { userDetailsReset } = userSlice.actions;
+export const { userDetailsReset, usersListReset } = userSlice.actions;
 export default userSlice.reducer;
