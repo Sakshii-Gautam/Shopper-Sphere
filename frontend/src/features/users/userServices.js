@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { myOrderListReset } from '../order/orderSlice';
+import { userDetailsReset } from './userSlice';
 
 export const login = createAsyncThunk(
   'users/login',
@@ -21,9 +23,14 @@ export const login = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk('users/logout', async () => {
-  localStorage.removeItem('userInfo');
-});
+export const logout = createAsyncThunk(
+  'users/logout',
+  async (args, { dispatch }) => {
+    localStorage.removeItem('userInfo');
+    dispatch(userDetailsReset());
+    dispatch(myOrderListReset());
+  }
+);
 
 export const registerUser = createAsyncThunk(
   'users/registerUser',

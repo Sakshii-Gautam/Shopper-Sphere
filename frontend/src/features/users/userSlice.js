@@ -10,7 +10,11 @@ import {
 const userSlice = createSlice({
   name: 'users',
   initialState: {},
-  reducers: {},
+  reducers: {
+    userDetailsReset: (state) => {
+      state.userInfo = {};
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -71,4 +75,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { userDetailsReset } = userSlice.actions;
 export default userSlice.reducer;

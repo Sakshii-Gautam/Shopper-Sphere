@@ -22,7 +22,7 @@ const ProfileScreen = () => {
   const users = useSelector((state) => state.users);
   const { isLoading, error, userInfo, profileUpdatedSuccess } = users;
   const orders = useSelector((state) => state.orders);
-  const { myOrdersList } = orders;
+  const { myOrdersList, user } = orders;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,9 +30,10 @@ const ProfileScreen = () => {
       navigate('/login');
     } else {
       if (!userInfo.name) {
-        dispatch(getUserDetails('profile'));
         dispatch(myOrdersListApi());
+        dispatch(getUserDetails('profile'));
       } else {
+        dispatch(myOrdersListApi());
         setName(userInfo.name);
         setEmail(userInfo.email);
       }

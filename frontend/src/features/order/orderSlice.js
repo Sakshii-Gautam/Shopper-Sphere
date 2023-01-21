@@ -17,6 +17,9 @@ const orderSlice = createSlice({
     orderPayReset: (state, action) => {
       return {};
     },
+    myOrderListReset: (state, action) => {
+      state.orders = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -74,5 +77,5 @@ const orderSlice = createSlice({
   },
 });
 
-export const { orderPayReset } = orderSlice.actions;
+export const { orderPayReset, myOrderListReset } = orderSlice.actions;
 export default orderSlice.reducer;
