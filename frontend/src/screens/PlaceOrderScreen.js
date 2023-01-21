@@ -9,7 +9,7 @@ import { createOrderApi } from '../features/order/orderServices';
 const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart);
   const orders = useSelector((state) => state.orders);
-  const { order, success, error } = orders;
+  const { order, orderCreated, error } = orders;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,14 +33,15 @@ const PlaceOrderScreen = () => {
   ).toFixed(2);
 
   useEffect(() => {
-    if (success) {
+    if (orderCreated) {
+      console.log('orderid', order._id);
       navigate(`/order/${order._id}`);
     }
     // eslint-disable-next-line
-  }, [navigate]);
+  }, [navigate, order]);
 
-  const placeOrderHandler = () => {
-    dispatch(
+  const placeOrderHandler = async () => {
+    await dispatch(
       createOrderApi({
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
