@@ -7,6 +7,7 @@ import {
   updateUserProfile,
   getAllUsersApi,
   deleteUserApi,
+  userUpdateApi,
 } from './userServices';
 
 const userSlice = createSlice({
@@ -14,6 +15,11 @@ const userSlice = createSlice({
   initialState: {
     usersList: [],
     userDetails: {},
+    userUpdate: {
+      isLoading: null,
+      error: null,
+      success: null,
+    },
   },
   reducers: {
     userDetailsReset: (state) => {
@@ -21,6 +27,9 @@ const userSlice = createSlice({
     },
     usersListReset: (state) => {
       state.usersList = [];
+    },
+    userUpdateReset: (state) => {
+      state.userUpdate = {};
     },
   },
   extraReducers: (builder) => {
@@ -106,8 +115,22 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       });
+
+    builder
+      .addCase(userUpdateApi.pending, (state) => {
+        state.userUpdate.isLoading = true;
+      })
+      .addCase(userUpdateApi.fulfilled, (state, action) => {
+        state.userUpdate.isLoading = false;
+        state.userUpdate.success = true;
+      })
+      .addCase(userUpdateApi.rejected, (state, action) => {
+        state.userUpdate.isLoading = false;
+        state.userUpdate.error = action.error.message;
+      });
   },
 });
 
-export const { userDetailsReset, usersListReset } = userSlice.actions;
+export const { userDetailsReset, usersListReset, userUpdateReset } =
+  userSlice.actions;
 export default userSlice.reducer;

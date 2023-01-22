@@ -119,3 +119,21 @@ export const deleteUserApi = createAsyncThunk(
     return data;
   }
 );
+
+export const userUpdateApi = createAsyncThunk(
+  'users/updateUser',
+  async (user, { dispatch, getState }) => {
+    const {
+      users: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+    dispatch(getUserDetails(data._id));
+    return data;
+  }
+);

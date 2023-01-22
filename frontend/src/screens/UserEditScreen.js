@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
-import { getUserDetails } from '../features/users/userServices';
+import { getUserDetails, userUpdateApi } from '../features/users/userServices';
+import { userUpdateReset } from '../features/users/userSlice';
 
 const UserEditScreen = () => {
   const [name, setName] = useState('');
@@ -15,23 +16,34 @@ const UserEditScreen = () => {
   const dispatch = useDispatch();
   const { id: userId } = useParams();
   const users = useSelector((state) => state.users);
-  const { isLoading, error, userInfo, userDetails } = users;
+  const { isLoading, error, userDetails, userInfo } = users;
+  const userUpdate = useSelector((state) => state.users.userUpdate);
+  const {
+    isLoading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = userUpdate;
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userDetails.name || userDetails._id !== userId) {
-      dispatch(getUserDetails(userId));
+    if (successUpdate) {
+      dispatch(userUpdateReset());
+      navigate('/admin/usersList');
     } else {
-      setName(userDetails.name);
-      setEmail(userDetails.email);
-      setIsAdmin(userDetails.isAdmin);
+      if (!userDetails.name || userDetails._id !== userId) {
+        dispatch(getUserDetails(userId));
+      } else {
+        setName(userDetails.name);
+        setEmail(userDetails.email);
+        setIsAdmin(userDetails.isAdmin);
+      }
     }
-  }, [userDetails, userId, dispatch]);
+  }, [userDetails, userId, dispatch, successUpdate, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(userUpdateApi({ _id: userId, name, email, isAdmin }));
   };
 
   return (
@@ -41,6 +53,10 @@ const UserEditScreen = () => {
       </Link>
       <FormContainer>
         <h1>Edit User</h1>
+        {loadingUpdate && <Loader />}
+        {errorUpdate && (
+          <Message variant="danger">{errorUpdate.message}</Message>
+        )}
         {isLoading ? (
           <Loader />
         ) : error ? (
