@@ -13,7 +13,6 @@ const UsersListScreen = () => {
   const users = useSelector((state) => state.users);
   const { usersList, userInfo, userDeleteSuccess } = users;
   const { isLoading, error } = usersList;
-  // const { success: successDelete = null } = userDelete;
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {

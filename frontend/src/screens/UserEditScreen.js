@@ -16,7 +16,7 @@ const UserEditScreen = () => {
   const dispatch = useDispatch();
   const { id: userId } = useParams();
   const users = useSelector((state) => state.users);
-  const { isLoading, error, userDetails, userInfo } = users;
+  const { isLoading, error, userDetails } = users;
   const userUpdate = useSelector((state) => state.users.userUpdate);
   const {
     isLoading: loadingUpdate,

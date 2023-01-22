@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartSlice from '../features/Cart/cartSlice';
 import orderSlice from '../features/order/orderSlice';
+import productCreateSlice from '../features/products/productCreateSlice';
+import productDeleteSlice from '../features/products/productDeleteSlice';
 import productDetailsSlice from '../features/products/productDetailsSlice';
 import productListSlice from '../features/products/productListSlice';
+import productUpdateSlice from '../features/products/productUpdateSlice';
 import userSlice from '../features/users/userSlice';
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')
@@ -30,6 +33,9 @@ const store = configureStore({
   reducer: {
     productList: productListSlice,
     productDetails: productDetailsSlice,
+    productDelete: productDeleteSlice,
+    productCreate: productCreateSlice,
+    productUpdate: productUpdateSlice,
     cart: cartSlice,
     users: userSlice,
     orders: orderSlice,
